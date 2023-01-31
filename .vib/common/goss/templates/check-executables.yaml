@@ -1,0 +1,4 @@
+command:
+  check-executables:
+    exec: ./common/goss/scripts/check-executables.sh
+    exit-status: 0

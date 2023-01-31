@@ -38,9 +38,10 @@
           "action_id": "goss",
           "params": {
             "resources": {
-              "path": "/.vib/apache/goss"
+              "path": "/.vib"
             },
-            "vars_file": "vars.yaml",
+            "tests_file": "apache/goss/goss.yaml",
+            "vars_file": "apache/goss/vars.yaml",
             "remote": {
               "workload": "deploy-apache"
             }

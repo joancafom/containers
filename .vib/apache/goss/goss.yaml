@@ -1,83 +1,11 @@
-file:
-  /opt/bitnami/{{ .Vars.app_name }}:
-    filetype: directory
-    exists: true
-  /opt/bitnami/{{ .Vars.app_name }}/conf/httpd.conf:
-    exists: true
-    filetype: file
-    contains:
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/bitnami\/bitnami.conf/
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/vhosts\/\*.conf/
-  /opt/bitnami/{{ .Vars.app_name }}/conf/bitnami/bitnami.conf:
-    exists: true
-    filetype: file
-    contains:
-      - /DocumentRoot.*\/opt\/bitnami\/apache\/htdocs/
-      - "bitnami-ssl.conf"
-  /opt/bitnami/{{ .Vars.app_name }}/conf/bitnami/bitnami-ssl.conf:
-    exists: true
-    filetype: file
-    contains:
-      - "SSLProtocol all -SSLv2 -SSLv3"
-      - /SSLCertificateFile.*bitnami\/certs\/server.crt/
-      - /SSLCertificateKeyFile.*bitnami\/certs\/server.key/
-  /opt/bitnami/{{ .Vars.app_name }}/cgi-bin:
-    exists: false
-    filetype: directory
-  /opt/bitnami/{{ .Vars.app_name }}/conf/deflate.conf:
-    exists: true
-    filetype: file
-  /opt/bitnami/{{ .Vars.app_name }}/conf/modsecurity.conf:
-    exists: true
-    filetype: file
-  /opt/bitnami/{{ .Vars.app_name }}/conf/unicode.mapping:
-    exists: true
-    filetype: file
-  {{- $mode :=  printf "%s" .Vars.filesystem.mode }}
-  {{ range $directory := .Vars.filesystem.directories }}
-  {{ $directory }}:
-    exists: true
-    filetype: directory
-    mode: {{ $mode }}
-  {{ end }}
-  {{ range $module := .Vars.extraModules }}
-  /opt/bitnami/{{ .Vars.app_name }}/modules/mod_{{ $module }}.so:
-    exists: true
-    filetype: file
-  {{ end }}
-command:
-  check-loaded-modules:
-    exec: apachectl -M
-    exit-status: 0
-    stdout:
-    {{ range $module := .Vars.extraModules }}
-    {{ $module }}:
-      - {{ $module }}_module
-    {{ end }}
-    {{ range $module := .Vars.disabledModules }}
-    {{ $module }}:
-      - !{{ $module }}_module
-    {{ end }}
-  broken-binary:
-    exec: ldd /opt/bitnami/{{ .Vars.app_name }}/bin/httpd
-    exit-status: 0
-    stdout:
-    - "!not found"
-  {{ range $module := (concat .Vars.modules.loaded .Vars.modules.disabled .Vars.modules.extra) }}
-  broken-module-{{ $module }}:
-    exec: ldd /opt/bitnami/{{ .Vars.app_name }}/modules/mod_{{ $module }}.so
-    exit-status: 0
-    stdout:
-    - "!not found"
-  {{ end }}
-  check-app-version:
-    exec: {{ .Vars.bin_name }} -v
-    exit-status: 0
-    stdout:
-    - {{ .Env.APP_VERSION }}
-  check-configuration:
-    exec: {{ .Vars.bin_name }} -t
-    exit-status: 0
-  check-components:
-    exec: ./scripts/check-components.sh
-    exit-status: 0
+	gossfile:
+  # Goss tests exclusive to the current container
+  ../../mariadb/goss/templates/apache.yaml: {}
+  # Load scripts from .vib/common/goss/templates
+  ../../common/goss/templates/check-sed-in-place.yaml: {}
+  ../../common/goss/templates/check-broken-symlinks.yaml: {}
+  ../../common/goss/templates/check-ca-certs.yaml: {}
+  ../../common/goss/templates/check-added-openssl.yaml: {}
+  ../../common/goss/templates/check-executables.yaml: {}
+  ../../common/goss/templates/check-components.yaml: {}
+  ../../common/goss/templates/check-app-directories.yaml: {}
