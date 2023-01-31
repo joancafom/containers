@@ -1,4 +1,3 @@
-
 command:
   check-added-openssl:
     exec: ./common/goss/scripts/check-added-openssl.sh

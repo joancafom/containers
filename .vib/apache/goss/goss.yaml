@@ -1,4 +1,4 @@
-	gossfile:
+gossfile:
   # Goss tests exclusive to the current container
   ../../apache/goss/templates/apache.yaml: {}
   # Load scripts from .vib/common/goss/templates

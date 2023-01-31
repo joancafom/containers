@@ -1,4 +1,4 @@
-	file:
+file:
   # Checks root app directory as well as directories
   # with permission changed in the postunpack stage
   /opt/bitnami/{{ .Vars.app_name }}:
