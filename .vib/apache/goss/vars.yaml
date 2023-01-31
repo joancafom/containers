@@ -1,0 +1,36 @@
+app_name: apache
+bin_name: apachectl
+filesystem:
+  directories:
+    - /opt/bitnami/apache/var/run
+    - /opt/bitnami/apache/conf
+    - /opt/bitnami/apache/logs
+    - /opt/bitnami/apache/conf/vhosts
+    - /opt/bitnami/apache/conf/vhosts/htaccess
+    - /opt/bitnami/apache/htdocs
+  mode: 0775
+modules:
+  loaded:
+    - mpm_prefork
+    - deflate
+    - ssl
+    - proxy
+    - proxy_http
+    - rewrite
+    # conf
+    - negotiation
+    - slotmem_shm
+    - socache_shmcb
+    - status
+    - version
+  disabled:
+    - http2
+    - proxy_hcheck
+  extra:
+    - mpm_event
+    - mpm_prefork
+    - mpm_worker
+    - http2
+    - ldap
+    - authnz_ldap
+    - security3
