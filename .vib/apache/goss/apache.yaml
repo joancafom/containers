@@ -42,16 +42,16 @@ file:
 command:
   # There are no syntax error in the configuration
   check-configuration:
-    exec: apache -t
+    exec: apachectl -t
     exit-status: 0
   check-app-version:
-    exec: apache -v
+    exec: apachectl -v
     exit-status: 0
     stdout:
       - {{ .Env.APP_VERSION }}
   # Check explicitly enabled and disable modules
   check-loaded-modules:
-    exec: apache -M
+    exec: apachectl -M
     exit-status: 0
     stdout:
     {{ range $module := .Vars.modules.loaded }}
