@@ -48,18 +48,16 @@ command:
     exec: apache -v
     exit-status: 0
     stdout:
-    - {{ .Env.APP_VERSION }}
+      - {{ .Env.APP_VERSION }}
   # Check explicitly enabled and disable modules
   check-loaded-modules:
     exec: apache -M
     exit-status: 0
     stdout:
     {{ range $module := .Vars.modules.loaded }}
-    {{ $module }}:
       - "{{ $module }}_module"
     {{ end }}
     {{ range $module := .Vars.modules.disabled }}
-    {{ $module }}:
       - "!{{ $module }}_module"
     {{ end }}
   # Modules should not have references to broken libraries

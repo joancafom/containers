@@ -8,7 +8,7 @@ filesystem:
     - /opt/bitnami/apache/conf/vhosts
     - /opt/bitnami/apache/conf/vhosts/htaccess
     - /opt/bitnami/apache/htdocs
-  mode: 0775
+  mode: "0775"
 modules:
   loaded:
     - mpm_prefork
