@@ -25,7 +25,6 @@ file:
   # CGI folder has been removed, as recommended by Apache
   /opt/bitnami/apache/cgi-bin:
     exists: false
-    filetype: directory
   # Compiled disabled modules should have been generated
   {{ range $module := .Vars.modules.extra }}
   /opt/bitnami/apache/modules/mod_{{ $module }}.so:
