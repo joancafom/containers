@@ -7,7 +7,7 @@ for component in "${components[@]}"; do
     which mysql
   elif [[ "$component" == "apache" ]]; then
     which apachectl
-  elif [[ "$component" == "libphp" ]]; then
+  elif [[ "$component" == "libphp" || "$component" == "wordpress" ]]; then
     :
   elif [[ "$component" == "mysql-client" ]]; then
     which mysql

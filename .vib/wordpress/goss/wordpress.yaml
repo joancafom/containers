@@ -25,7 +25,7 @@ file:
       - /path.*\/opt\/bitnami\/wordpress/
 command:
   check-app-version:
-    exec: cat wp-includes/version.php  | grep "wp_version"
+    exec: cat /opt/bitnami/wordpress/wp-includes/version.php  | grep "wp_version"
     exit-status: 0
     stdout:
       - {{ .Env.APP_VERSION }}

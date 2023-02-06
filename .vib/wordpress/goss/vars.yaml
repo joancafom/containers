@@ -10,7 +10,7 @@ filesystem:
     - /opt/bitnami/wordpress/wp-content/languages
     # WP-CLI
     - /opt/bitnami/wp-cli/.cache
-    - /opt/bitnami/wp-cli/.package
+    - /opt/bitnami/wp-cli/.packages
   mode: "0775"
 # https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions
 modules:
