@@ -1,5 +1,4 @@
 app_name: wordpress
-bin_name: apachectl
 filesystem:
   directories:
     - /bitnami/wordpress
@@ -12,8 +11,8 @@ filesystem:
     - /opt/bitnami/wp-cli/.cache
     - /opt/bitnami/wp-cli/.packages
   mode: "0775"
-# https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions
 modules:
+# https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions
 # Required
   - json
   - mysqli
