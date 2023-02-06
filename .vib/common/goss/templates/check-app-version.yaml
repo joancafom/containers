@@ -1,0 +1,6 @@
+command:
+  check-app-version:
+    exec: {{ .Vars.bin_name }} --version
+    exit-status: 0
+    stdout:
+    - {{ .Env.APP_VERSION }}

@@ -1,0 +1,4 @@
+command:
+  check-sed-in-place:
+    exec: ./common/goss/scripts/check-sed-in-place.sh
+    exit-status: 0

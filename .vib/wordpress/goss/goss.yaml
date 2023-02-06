@@ -1,0 +1,11 @@
+gossfile:
+  # Goss tests exclusive to the current container
+  ../../wordpress/goss/wordpress.yaml: {}
+  # Load scripts from .vib/common/goss/templates
+  ../../common/goss/templates/check-added-openssl.yaml: {}
+  ../../common/goss/templates/check-app-directories.yaml: {}
+  ../../common/goss/templates/check-broken-symlinks.yaml: {}
+  ../../common/goss/templates/check-ca-certs.yaml: {}
+  ../../common/goss/templates/check-components.yaml: {}
+  ../../common/goss/templates/check-executables.yaml: {}
+  ../../common/goss/templates/check-sed-in-place.yaml: {}

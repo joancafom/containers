@@ -1,0 +1,34 @@
+app_name: wordpress
+bin_name: apachectl
+filesystem:
+  directories:
+    - /bitnami/wordpress
+    - /opt/bitnami/wordpress
+    - /opt/bitnami/wordpress/tmp
+    - /opt/bitnami/wordpress/wp-content/upgrade
+    - /opt/bitnami/wordpress/wp-content/uploads
+    - /opt/bitnami/wordpress/wp-content/languages
+    # WP-CLI
+    - /opt/bitnami/wp-cli/.cache
+    - /opt/bitnami/wp-cli/.package
+  mode: "0775"
+# https://make.wordpress.org/hosting/handbook/server-environment/#php-extensions
+modules:
+# Required
+  - json
+  - mysqli
+# Recommended
+  - curl
+  - dom
+  - exif
+  - fileinfo
+  - hash
+  - imagick
+  - mbstring
+  - sodium
+  - openssl
+  - pcre
+  - xml
+  - zip
+# Also specific from post unpack
+  - memcached

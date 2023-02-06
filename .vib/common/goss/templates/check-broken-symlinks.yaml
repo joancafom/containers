@@ -1,0 +1,4 @@
+command:
+  check-broken-symlinks:
+    exec: if [ $(find /opt/bitnami -xtype l | wc -l) -gt 0 ]; then exit 1; fi
+    exit-status: 0

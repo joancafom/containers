@@ -1,0 +1,45 @@
+file:
+  # Main config file includes other config files
+  /opt/bitnami/wordpress/wp-config.php:
+    exists: true
+    filetype: file
+  # Main config file includes other config files
+  /opt/bitnami/apache/conf/vhosts/wordpress-vhost.conf:
+    exists: true
+    filetype: file
+    contains:
+      - "RewriteRule ^bitnami/wordpress(/.*) $1"
+      - /DocumentRoot.*\/opt\/bitnami\/wordpress/
+  # Main config file includes other config files
+  /opt/bitnami/apache/conf/vhosts/wordpress-https-vhost.conf:
+    exists: true
+    filetype: file
+    contains:
+      - "SSLEngine on"
+      - "RewriteRule ^bitnami/wordpress(/.*) $1"
+      - /DocumentRoot.*\/opt\/bitnami\/wordpress/
+  /opt/bitnami/wp-cli/conf/wp-cli.yml:
+    exists: true
+    filetype: file
+    contains:
+      - /path.*\/opt\/bitnami\/wordpress/
+command:
+  check-app-version:
+    exec: cat wp-includes/version.php  | grep "wp_version"
+    exit-status: 0
+    stdout:
+      - {{ .Env.APP_VERSION }}
+  check-wp-cli-conf:
+    exec: wp --info
+    exit-status: 0
+    stdout:
+      - "/opt/bitnami/php/bin/php"
+      - "/opt/bitnami/wp-cli/conf/wp-cli.yml"
+  # Check explicitly enabled and disable modules
+  check-loaded-modules:
+    exec: php -m
+    exit-status: 0
+    stdout:
+    {{ range $module := .Vars.modules }}
+      - "{{ $module }}"
+    {{ end }}
