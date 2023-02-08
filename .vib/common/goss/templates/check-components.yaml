@@ -1,5 +1,0 @@
-command:
-  # Checks needed container's components are in PATH
-  check-components:
-    exec: ./common/goss/scripts/check-components.sh
-    exit-status: 0

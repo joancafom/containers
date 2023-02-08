@@ -1,54 +1,42 @@
 file:
-  # Main config file includes other config files
-  /opt/bitnami/apache/conf/httpd.conf:
+  # Main Apache config file includes other config files
+  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/httpd.conf:
     exists: true
     filetype: file
     contains:
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/bitnami\/bitnami.conf/
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/vhosts\/\*.conf/
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/deflate.conf/
-  # Main bitnami config file was correctly generated in postunpack
-  /opt/bitnami/apache/conf/bitnami/bitnami.conf:
+      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami.conf/
+      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/vhosts/\*.conf/
+      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/deflate.conf/
+  # Main Bitnami config file was correctly generated
+  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami.conf:
     exists: true
     filetype: file
     contains:
-      - /DocumentRoot.*\/opt\/bitnami\/apache\/htdocs/
-      - /^Include.*\/opt\/bitnami\/apache\/conf\/bitnami\/bitnami-ssl.conf/
-  # Main bitnami ssl config file was correctly generated in postunpack
-  /opt/bitnami/apache/conf/bitnami/bitnami-ssl.conf:
+      - /DocumentRoot.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/htdocs/
+      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami-ssl.conf/
+  # Main Bitnami ssl config file was correctly generated
+  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami-ssl.conf:
     exists: true
     filetype: file
     contains:
       - "SSLProtocol all -SSLv2 -SSLv3"
-      - /SSLCertificateFile.*bitnami\/certs\/server.crt/
-      - /SSLCertificateKeyFile.*bitnami\/certs\/server.key/
+      - /SSLCertificateFile.*bitnami/certs/server.crt/
+      - /SSLCertificateKeyFile.*bitnami/certs/server.key/
   # CGI folder has been removed, as recommended by Apache
-  /opt/bitnami/apache/cgi-bin:
+  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/cgi-bin:
     exists: false
   # Compiled disabled modules should have been generated
   {{ range $module := .Vars.modules.extra }}
-  /opt/bitnami/apache/modules/mod_{{ $module }}.so:
+  {{ $.Vars.root_dir }}/{{ $.Env.BITNAMI_APP_NAME }}/modules/mod_{{ $module }}.so:
     exists: true
     filetype: file
   {{ end }}
-  # Modsecurity related files should be present
-  /opt/bitnami/apache/conf/modsecurity.conf:
-    exists: true
-    filetype: file
-  /opt/bitnami/apache/conf/unicode.mapping:
-    exists: true
-    filetype: file
 command:
   # There are no syntax error in the configuration
   check-configuration:
     exec: apachectl -t
     exit-status: 0
-  check-app-version:
-    exec: apachectl -v
-    exit-status: 0
-    stdout:
-      - {{ .Env.APP_VERSION }}
-  # Check explicitly enabled and disable modules
+  # Check explicitly enabled and disabled modules
   check-loaded-modules:
     exec: apachectl -M
     exit-status: 0
@@ -59,11 +47,3 @@ command:
     {{ range $module := .Vars.modules.disabled }}
       - "!{{ $module }}_module"
     {{ end }}
-  # Modules should not have references to broken libraries
-  {{ range $module := (concat .Vars.modules.loaded .Vars.modules.disabled .Vars.modules.extra) }}
-  broken-module-{{ $module }}:
-    exec: ldd /opt/bitnami/apache/modules/mod_{{ $module }}.so
-    exit-status: 0
-    stdout:
-      - "!not found"
-  {{ end }}

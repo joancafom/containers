@@ -1,4 +1,10 @@
+########################
+# Checks components scripts do not have calls
+# to sed commands with the in-place argument
+# Needed vars:
+#   - .Vars.root_dir
+########################
 command:
   check-sed-in-place:
-    exec: ./common/goss/scripts/check-sed-in-place.sh
+    exec: export BITNAMI_ROOT_DIR={{ .Vars.root_dir }} && /tmp/.vib/common/goss/scripts/check-sed-in-place.sh
     exit-status: 0
