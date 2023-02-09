@@ -3,6 +3,9 @@ components:
     - httpd
     - gosu
     - render-template
+  files:
+    - /opt/bitnami/apache/conf/modsecurity.conf
+    - /opt/bitnami/apache/conf/unicode.mapping
 filesystem:
   - mode: "0775"
     directories:
