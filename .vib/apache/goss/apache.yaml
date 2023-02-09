@@ -1,21 +1,21 @@
 file:
   # Main Apache config file includes other config files
-  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/httpd.conf:
+  {{ .Vars.root_dir }}/apache/conf/httpd.conf:
     exists: true
     filetype: file
     contains:
-      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami.conf/
-      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/vhosts/\*.conf/
-      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/deflate.conf/
+      - /^Include.*{{ .Vars.root_dir }}/apache/conf/bitnami/bitnami.conf/
+      - /^Include.*{{ .Vars.root_dir }}/apache/conf/vhosts/\*.conf/
+      - /^Include.*{{ .Vars.root_dir }}/apache/conf/deflate.conf/
   # Main Bitnami config file was correctly generated
-  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami.conf:
+  {{ .Vars.root_dir }}/apache/conf/bitnami/bitnami.conf:
     exists: true
     filetype: file
     contains:
-      - /DocumentRoot.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/htdocs/
-      - /^Include.*{{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami-ssl.conf/
+      - /DocumentRoot.*{{ .Vars.root_dir }}/apache/htdocs/
+      - /^Include.*{{ .Vars.root_dir }}/apache/conf/bitnami/bitnami-ssl.conf/
   # Main Bitnami ssl config file was correctly generated
-  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/conf/bitnami/bitnami-ssl.conf:
+  {{ .Vars.root_dir }}/apache/conf/bitnami/bitnami-ssl.conf:
     exists: true
     filetype: file
     contains:
@@ -23,11 +23,11 @@ file:
       - /SSLCertificateFile.*bitnami/certs/server.crt/
       - /SSLCertificateKeyFile.*bitnami/certs/server.key/
   # CGI folder has been removed, as recommended by Apache
-  {{ .Vars.root_dir }}/{{ .Env.BITNAMI_APP_NAME }}/cgi-bin:
+  {{ .Vars.root_dir }}/apache/cgi-bin:
     exists: false
   # Compiled disabled modules should have been generated
   {{ range $module := .Vars.modules.extra }}
-  {{ $.Vars.root_dir }}/{{ $.Env.BITNAMI_APP_NAME }}/modules/mod_{{ $module }}.so:
+  {{ $.Vars.root_dir }}/apache/modules/mod_{{ $module }}.so:
     exists: true
     filetype: file
   {{ end }}
