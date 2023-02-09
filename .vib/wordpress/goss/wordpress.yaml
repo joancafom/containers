@@ -1,32 +1,28 @@
 file:
-  # The main config file should be present
-  /opt/bitnami/wordpress/wp-config.php:
-    exists: true
-    filetype: file
-  # HTTP vhost should have been generated
-  /opt/bitnami/apache/conf/vhosts/wordpress-vhost.conf:
+  # HTTP vhost should have been properly rendered
+  {{ .Vars.root_dir }}/apache/conf/vhosts/wordpress-vhost.conf:
     exists: true
     filetype: file
     contains:
       - "RewriteRule ^bitnami/wordpress(/.*) $1"
-      - /DocumentRoot.*\/opt\/bitnami\/wordpress/
-  # HTTPs vhost should have been generated
-  /opt/bitnami/apache/conf/vhosts/wordpress-https-vhost.conf:
+      - /DocumentRoot.*{{ .Vars.root_dir }}/wordpress/
+  # HTTPs vhost should have been properly rendered
+  {{ .Vars.root_dir }}/apache/conf/vhosts/wordpress-https-vhost.conf:
     exists: true
     filetype: file
     contains:
       - "SSLEngine on"
       - "RewriteRule ^bitnami/wordpress(/.*) $1"
-      - /DocumentRoot.*\/opt\/bitnami\/wordpress/
-  # WP-CLI should point to wordpress installation path
-  /opt/bitnami/wp-cli/conf/wp-cli.yml:
+      - /DocumentRoot.*{{ .Vars.root_dir }}/wordpress/
+  # WP-CLI should point to wordpress' installation path
+  {{ .Vars.root_dir }}/wp-cli/conf/wp-cli.yml:
     exists: true
     filetype: file
     contains:
-      - /path.*\/opt\/bitnami\/wordpress/
+      - /path.*{{ .Vars.root_dir }}/wordpress/
 command:
   check-app-version:
-    exec: cat /opt/bitnami/wordpress/wp-includes/version.php  | grep "wp_version"
+    exec: cat {{ .Vars.root_dir }}/wordpress/wp-includes/version.php  | grep "wp_version"
     exit-status: 0
     stdout:
       - {{ .Env.APP_VERSION }}
@@ -35,13 +31,12 @@ command:
     exec: wp --info
     exit-status: 0
     stdout:
-      - "/opt/bitnami/php/bin/php"
-      - "/opt/bitnami/wp-cli/conf/wp-cli.yml"
-  # Check explicitly enabled
+      - "{{ .Vars.root_dir }}/php/bin/php"
+      - "{{ .Vars.root_dir }}/wp-cli/conf/wp-cli.yml"
   check-enabled-modules:
     exec: php -m
     exit-status: 0
     stdout:
-    {{ range $module := .Vars.modules }}
+    {{ range $module := .Vars.phpmodules }}
       - "{{ $module }}"
     {{ end }}
