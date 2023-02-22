@@ -43,7 +43,9 @@
             "tests_file": "gradle/goss/goss.yaml",
             "vars_file": "gradle/goss/vars.yaml",
             "remote": {
-              "workload": "deploy-gradle"
+              "pod": {
+                "workload": "deploy-gradle"
+              }
             }
           }
         },
