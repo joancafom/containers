@@ -10,6 +10,6 @@ command:
     exit-status: 0
 file:
   # HTTP vhost should have been properly rendered
-  /opt/bitnami/python/lib/libpython{{ regexFind "\d+\.\d+" .Env.APP_VERSION }}.so:
+  /opt/bitnami/python/lib/libpython{{ regexFind "\\d+\\.\\d+" .Env.APP_VERSION }}.so:
     exists: true
     filetype: symlink
