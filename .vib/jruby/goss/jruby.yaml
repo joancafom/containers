@@ -8,7 +8,7 @@ command:
   check-basic-rake-task:
     exec: echo -e "task :test do \n puts 'Hello VIB' \n end" > /tmp/test-rake.rb && rake -f /tmp/test-rake.rb test
     exit-status: 0
-    contains:
+    stdout:
       - Hello VIB
   check-bundle:
     exec: cd /tmp && echo -e "source 'https://rubygems.org'" > Gemfile && bundle
@@ -16,7 +16,7 @@ command:
   check-mariadb-jdbc-driver:
     exec: jruby -e "puts Java::org.mariadb.jdbc.Driver"
     exit-status: 0
-    contains:
+    stdout:
       - Java::OrgMariadbJdbc::Driver
 file:
   /opt/bitnami/jruby/bin/ruby:
