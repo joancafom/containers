@@ -1,0 +1,25 @@
+command:
+  check-app-version:
+    exec: jruby --version | grep $(echo $APP_VERSION | tr '-' '.')
+    exit-status: 0
+  check-basic-command:
+    exec: jruby -e "require 'rubygems'; puts Time.now.year" | grep $(date +"%Y")
+    exit-status: 0
+  check-basic-rake-task:
+    exec: echo -e "task :test do \n puts 'Hello VIB' \n end" > /tmp/test-rake.rb && rake -f /tmp/test-rake.rb test
+    exit-status: 0
+    contains:
+      - Hello VIB
+  check-bundle:
+    exec: cd /tmp && echo -e "source 'https://rubygems.org'" > Gemfile && bundle
+    exit-status: 0
+  check-mariadb-jdbc-driver:
+    exec: jruby -e "puts Java::org.mariadb.jdbc.Driver"
+    exit-status: 0
+    contains:
+      - Java::OrgMariadbJdbc::Driver
+file:
+  /opt/bitnami/jruby/bin/ruby:
+    exists: true
+    filetype: symlink
+    linked-to: /opt/bitnami/jruby/bin/jruby

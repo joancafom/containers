@@ -1,0 +1,7 @@
+binaries:
+  - jruby
+  - ruby
+  - python
+  - node
+  - java
+root_dir: /opt/bitnami
