@@ -3,15 +3,15 @@ command:
     exec: jruby --version | grep $(echo $APP_VERSION | tr '-' '.')
     exit-status: 0
   check-basic-command:
-    exec: jruby -e "require 'rubygems'; puts Time.now.year" | grep $(date +"%Y")
+    exec: jruby -rnet/https -e "Net::HTTP.get URI('https://github.com')"
     exit-status: 0
   check-basic-rake-task:
-    exec: echo -e "task :test do \n puts 'Hello VIB' \n end" > /tmp/test-rake.rb && rake -f /tmp/test-rake.rb test
+    exec: echo "task :test do; puts 'Hello VIB'; end" > /tmp/test-rake.rb && rake -f /tmp/test-rake.rb test
     exit-status: 0
     stdout:
       - Hello VIB
   check-bundle:
-    exec: cd /tmp && echo -e "source 'https://rubygems.org'" > Gemfile && bundle
+    exec: cd /tmp && echo "source 'https://rubygems.org'" > Gemfile && bundle
     exit-status: 0
   check-mariadb-jdbc-driver:
     exec: jruby -e "puts Java::org.mariadb.jdbc.Driver"
