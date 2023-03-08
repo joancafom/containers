@@ -20,6 +20,7 @@ command:
   check-mariadb-jdbc-driver:
     exec: jruby -e "puts Java::org.mariadb.jdbc.Driver"
     exit-status: 0
+    timeout: 20000
     stdout:
       - Java::OrgMariadbJdbc::Driver
 file:
