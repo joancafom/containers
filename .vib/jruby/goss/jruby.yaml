@@ -5,6 +5,7 @@ command:
     exit-status: 0
   check-bundle:
     exec: cd /tmp && echo "source 'https://rubygems.org'" > Gemfile && bundle
+    timeout: 20000
     exit-status: 0
   check-jruby-ssl:
     exec: jruby -rnet/https -e "Net::HTTP.get URI('https://bitnami.com')"
