@@ -1,18 +1,19 @@
 command:
+  # Revisions are displayed as "x.y.z.r" instead of "x.y.z-r"
   check-app-version:
     exec: jruby --version | grep $(echo $APP_VERSION | tr '-' '.')
     exit-status: 0
-  check-basic-command:
-    exec: jruby -rnet/https -e "Net::HTTP.get URI('https://github.com')"
+  check-bundle:
+    exec: cd /tmp && echo "source 'https://rubygems.org'" > Gemfile && bundle
     exit-status: 0
-  check-basic-rake-task:
+  check-jruby-ssl:
+    exec: jruby -rnet/https -e "Net::HTTP.get URI('https://bitnami.com')"
+    exit-status: 0
+  check-rake-task:
     exec: echo "task :test do; puts 'Hello VIB'; end" > /tmp/test-rake.rb && rake -f /tmp/test-rake.rb test
     exit-status: 0
     stdout:
       - Hello VIB
-  check-bundle:
-    exec: cd /tmp && echo "source 'https://rubygems.org'" > Gemfile && bundle
-    exit-status: 0
   check-mariadb-jdbc-driver:
     exec: jruby -e "puts Java::org.mariadb.jdbc.Driver"
     exit-status: 0
