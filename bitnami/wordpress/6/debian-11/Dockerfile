@@ -26,7 +26,7 @@ RUN mkdir -p /tmp/bitnami/pkg/cache/ && cd /tmp/bitnami/pkg/cache/ && \
       "apache-2.4.56-0-linux-${OS_ARCH}-debian-11" \
       "mysql-client-10.6.12-1-linux-${OS_ARCH}-debian-11" \
       "libphp-8.1.16-3-linux-${OS_ARCH}-debian-11" \
-      "wordpress-6.1.2-36-linux-${OS_ARCH}-debian-11" \
+      "wordpress-6.1.1-36-linux-${OS_ARCH}-debian-11" \
       "render-template-1.0.5-1-linux-${OS_ARCH}-debian-11" \
       "gosu-1.16.0-2-linux-${OS_ARCH}-debian-11" \
     ) && \
