@@ -59,7 +59,7 @@ jobs:
     # Automatic PRs do not need to be re-tested in GitHub
     if: |
       needs.get-containers.outputs.result == 'ok' &&
-      github.event.pull_request.user.login != 'bitnami-bot'
+      github.event.pull_request.user.login != 'joancafom'
     name: VIB Verify
     permissions: 
       contents: read
@@ -85,7 +85,7 @@ jobs:
             name="$(echo "${{ matrix.container }}" | awk -F '/' '{print $2}')"
             branch="$(echo "${{ matrix.container }}" | awk -F '/' '{print $3}')"
             tag=""
-            if [[ "${{ github.event.pull_request.user.login }}" == "bitnami-bot" ]]; then
+            if [[ "${{ github.event.pull_request.user.login }}" == "joancafom" ]]; then
               tag="$(grep -oE "org.opencontainers.image.ref.name=\".+\"" ${{ matrix.container }}/Dockerfile | sed -nr "s|org.opencontainers.image.ref.name=\"(.+)\"|\1|p")"
             else
               # Build a tag based on current RUN number
@@ -130,7 +130,7 @@ jobs:
       - vib-verify
     outputs:
       result: ${{ steps.get-status.outputs.result }}
-    if: ${{ always() && github.event.pull_request.user.login != 'bitnami-bot' }}
+    if: ${{ always() && github.event.pull_request.user.login != 'joancafom' }}
     steps:
       - id: get-status
         name: Check Status
