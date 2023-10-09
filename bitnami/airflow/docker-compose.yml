@@ -19,7 +19,7 @@ services:
     volumes:
       - 'redis_data:/bitnami'
     environment:
-      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      # ALLOW_EMPTY_PASSWORD is recommended only for development. Yes!
       - ALLOW_EMPTY_PASSWORD=yes
   airflow-scheduler:
     image: docker.io/bitnami/airflow-scheduler:2
