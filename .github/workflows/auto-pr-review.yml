@@ -20,7 +20,7 @@ jobs:
     # This job will be executed when the PR was created by bitnami-bot and it has the 'auto-merge' label
     if: |
       contains(github.event.pull_request.labels.*.name, 'auto-merge') &&
-      github.event.pull_request.user.login == 'bitnami-bot'
+      github.event.pull_request.user.login == 'joancafom'
     steps:
       # Approve the CI's PR automatically, as it has been tested in our internal pipeline already
       # Approved by the 'github-actions' user; a PR can't be approved by its author
@@ -35,7 +35,7 @@ jobs:
           result-encoding: string
           retries: 3
           # Necessary to trigger CD workflows
-          github-token: ${{ secrets.BITNAMI_BOT_TOKEN }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             github.rest.pulls.merge({
               pull_number: context.issue.number,
@@ -51,6 +51,6 @@ jobs:
         with:
           issue-number: ${{ github.event.number }}
           # Necessary to trigger support workflows
-          token: ${{ secrets.BITNAMI_BOT_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           body: |
             There has been an error during the automated release process. Manual revision is now required.
